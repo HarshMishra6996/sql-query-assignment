@@ -1,0 +1,61 @@
+SELECT u.name, o.amount
+FROM users u
+INNER JOIN orders o ON u.user_id = o.user_id;
+SELECT u.name, SUM(o.amount) AS total_order_amount
+FROM users u
+INNER JOIN orders o ON u.user_id = o.user_id
+GROUP BY u.name;
+SELECT u.name, a.login_count
+FROM users u
+LEFT JOIN activity a ON u.user_id = a.user_id;
+SELECT u.name
+FROM users u
+LEFT JOIN orders o ON u.user_id = o.user_id
+WHERE o.user_id IS NULL;
+SELECT u.name
+FROM users u
+LEFT JOIN orders o ON u.user_id = o.user_id
+WHERE o.user_id IS NULL;
+SELECT 
+    u.user_id,
+    u.name,
+    COALESCE(SUM(o.amount), 0) AS total_order_amount,
+    a.login_count
+FROM users u
+LEFT JOIN orders o ON u.user_id = o.user_id
+LEFT JOIN activity a ON u.user_id = a.user_id
+GROUP BY u.user_id, u.name, a.login_count;
+SELECT DISTINCT u.name
+FROM users u
+INNER JOIN orders o ON u.user_id = o.user_id
+WHERE o.amount > 400;
+SELECT u.name, SUM(o.amount) AS total_order_amount
+FROM users u
+INNER JOIN orders o ON u.user_id = o.user_id
+GROUP BY u.name
+ORDER BY total_order_amount DESC
+LIMIT 3;
+SELECT 
+    u.name,
+    COALESCE(SUM(o.amount), 0) AS total_order_amount,
+    a.login_count
+FROM users u
+LEFT JOIN orders o ON u.user_id = o.user_id
+LEFT JOIN activity a ON u.user_id = a.user_id
+GROUP BY u.name, a.login_count
+ORDER BY total_order_amount DESC, a.login_count DESC;
+SELECT u.name, AVG(o.amount) AS avg_order_amount
+FROM users u
+INNER JOIN orders o ON u.user_id = o.user_id
+GROUP BY u.name;
+SELECT 
+    u.user_id,
+    u.name,
+    SUM(o.amount) AS total_order_amount,
+    a.login_count
+FROM users u
+LEFT JOIN orders o ON u.user_id = o.user_id
+LEFT JOIN activity a ON u.user_id = a.user_id
+GROUP BY u.user_id, u.name, a.login_count
+ORDER BY total_order_amount DESC
+LIMIT 3;
